@@ -43,25 +43,19 @@ def add_user(body=None):  # noqa: E501
     :rtype: Model201UserCreatedResponse
     """
     if connexion.request.is_json:
-        # body = UserInfo.from_dict(connexion.request.get_json())  # noqa: E501
+    #     body = UserInfo.from_dict(connexion.request.get_json())  # noqa: E501
+    # else:
+    #     message = "Bad request"
+    #     return 400, message
         try:
             if users.find_one({"user_name":body['user_name']}):
-                logging.debug("check the user name is already there.")
-                return "User already exist", 400
+                return "User already exist", 409
             else:
                 body.update({"user_id" : (uuid.uuid4().hex)})
-                data = users.insert_one(body)
+                users.insert_one(body)
                 return "User Created", 200
-        except 401:
-            return "unauthorized", 401
-        except 403:
-            return "Forbidden", 403
-        except 404:
-            return "Not found", 404
-        except 503:
-            return "server unavailable", 503
-        except 500:
-            return "Internal server error",500
+        except:
+            return "Internal_server_error",500
 
 
 def delete_user(user_id):  # noqa: E501
@@ -75,22 +69,13 @@ def delete_user(user_id):  # noqa: E501
     :rtype: Model200UserDeletedResponse
     """
     try:
-        
         if users.find_one({"user_id":user_id}):
             delete_user = users.delete_one({"user_id":user_id})
             return "successfully deleted",200
         else:
             return "User_id is not found", 404
-    except 401:
-            return "unauthorized", 401
-    except 403:
-        return "Forbidden", 403
-    except 404:
-        return "Not found", 404
-    except 503:
-        return "server unavailable", 503
     except:
-        return "Internal server error",500
+        return "Internal_server_error",500
     
 
 
@@ -105,7 +90,6 @@ def get_user_details(user_id):  # noqa: E501
     :rtype: Model200UserDetailsResponse
     """
     try:
-    
         data = users.find({"user_id":user_id})
         data_list=[]
         for i in data:
@@ -113,17 +97,8 @@ def get_user_details(user_id):  # noqa: E501
 
             data_list.append(i)
         return data_list,200
-    except 401:
-        return "unauthorized", 401
-    except 403:
-        return "Forbidden", 403
-    except 404:
-        return "Not found", 404
-    except 503:
-        return "server unavailable", 503
-
     except:
-        return "Internal error",500
+        return "Internal_server_error",500
 
 def login_user(body=None):  # noqa: E501
     """login_user
@@ -136,27 +111,23 @@ def login_user(body=None):  # noqa: E501
     :rtype: LoginDetails
     """
     if connexion.request.is_json:
-        # body = LoginInfo.from_dict(connexion.request.get_json())  # noqa: E501
+    #     print(type(body))
+    #     body = LoginInfo.from_dict(connexion.request.get_json())  # noqa: E501
+    # else:
+    #     message = "Bad request"
+    #     return 400, message
         try:
             if users.find_one({"user_id": body['user_id']}):
                 if userslogin.find_one({"user_id":body['user_id']}):
-                    return "user already logged in",200
+                    return "user already logged in",401
                 else:
                     body.update({"token_id" : (uuid.uuid4().hex)})
                     data = userslogin.insert_one(body)
                     return "User logged in", 200
             else:
                 return "Invalid user", 401
-        except 401:
-            return "unauthorized", 401
-        except 403:
-            return "Forbidden", 403
-        except 404:
-            return "Not found", 404
-        except 503:
-            return "server unavailable", 503
-    else:
-        return "Internal server error", 500
+        except:
+            return "Internal_server_error",500
 
 
 def logout_user(body=None):  # noqa: E501
@@ -173,17 +144,9 @@ def logout_user(body=None):  # noqa: E501
             delete_user = userslogin.delete_one({"token_id":body['token']})
             return "User logged out",200
         else:
-            return "tokenId not found",200
-    except 401:
-            return "unauthorized", 401
-    except 403:
-        return "Forbidden", 403
-    except 404:
-        return "Not found", 404
-    except 503:
-        return "server unavailable", 503
+            return "tokenId not found",404
     except:
-        return "Internal server error",500
+            return "Internal_server_error",500
 
 
 def update_user_data(user_id, body=None):  # noqa: E501
@@ -200,20 +163,17 @@ def update_user_data(user_id, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = UpdateUserInfo.from_dict(connexion.request.get_json())  # noqa: E501
-        try:
-            body = ast.literal_eval(json.dumps(request.get_json()))
-            users.update_many({"user_id":user_id},{"$set":body})
-            return "successful",200
-        except 401:
-            return "unauthorized", 401
-        except 403:
-            return "Forbidden", 403
-        except 404:
-            return "Not found", 404
-        except 503:
-            return "server unavailable", 503
-        except:
-            return "Internal server error",500
+    else:
+        message = "Bad request"
+        return 400, message
+    try:
+         body = ast.literal_eval(json.dumps(request.get_json()))
+         users.update_many({"user_id":user_id},{"$set":body})
+         return "successful",200
+    
+        
+    except:
+        return "Internal_server_error",500
 
 
 
@@ -233,16 +193,8 @@ def get_all_users():  # noqa: E501
             data_list.append(i)
         return data_list,200
 
-    except 401:
-            return "unauthorized", 401
-    except 403:
-        return "Forbidden", 403
-    except 404:
-        return "Not found", 404
-    except 503:
-        return "server unavailable", 503
     except:
-        return "Inetrnal server error",500
+        return "Internal_server_error",500
 
 
 def validate_user_token(body=None):  # noqa: E501
@@ -261,14 +213,6 @@ def validate_user_token(body=None):  # noqa: E501
             if userslogin.find_one({"token_id":body['token']}):
                 return "User validated",200
             else:
-                return "token_id is not correct",404
-        except 401:
-                return "unauthorized", 401
-        except 403:
-            return "Forbidden", 403
-        except 404:
-            return "Not found", 404
-        except 503:
-            return "server unavailable", 503
+                return "token_id is Not found",404
         except:
-            return "Inetrnal server error",500
+            return "Internal_server_error",500
