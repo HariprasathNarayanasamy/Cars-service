@@ -367,10 +367,10 @@ components:
     user_info_sans_pwd:
       required:
       - email
-      - first_name
-      - password
-      - phone
       - user_name
+      - password
+      - phone_number
+      - role
       type: object
       properties:
         user_name:
@@ -381,8 +381,15 @@ components:
           type: string
         email:
           type: string
-        phone:
+        phone_number:
           type: string
+        role:
+          type: string
+          enum:
+            - Customer
+            - Marketing
+            - Dealer
+            - Production
     user_info:
       allOf:
       - $ref: '#/components/schemas/user_info_sans_pwd'
@@ -396,10 +403,9 @@ components:
         key:
           type: string
           enum:
-          - first_name
-          - last_name
+          - user_name
           - email
-          - phone
+          - phone_number
           - password
         value:
           type: string

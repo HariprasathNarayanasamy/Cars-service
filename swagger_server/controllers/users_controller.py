@@ -29,7 +29,7 @@ carDatabase = cluster.carDatabase
 users = carDatabase.users
 userslogin = carDatabase.userslogin
 
-logging.basicConfig(filename="newfile1.log",format="%(filename)s:%(lineno)s:%(levelname)s:%(message)s",level=logging.DEBUG)
+logging.basicConfig(filename="userfile.log",format="%(filename)s:%(lineno)s:%(levelname)s:%(message)s",level=logging.DEBUG)
 
 
 def add_user(body=None):  # noqa: E501
