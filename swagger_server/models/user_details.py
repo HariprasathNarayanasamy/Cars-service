@@ -15,44 +15,43 @@ class UserDetails(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, user_name: str=None, first_name: str=None, last_name: str=None, email: str=None, phone: str=None, user_id: str=None):  # noqa: E501
+    def __init__(self, user_name: str=None, role: str=None, email: str=None, phone_number: str=None, user_id: str=None):  # noqa: E501
         """UserDetails - a model defined in Swagger
 
         :param user_name: The user_name of this UserDetails.  # noqa: E501
         :type user_name: str
-        :param first_name: The first_name of this UserDetails.  # noqa: E501
-        :type first_name: str
+        :param role: The role of this UserDetails.  # noqa: E501
+        :type role: str
         :param last_name: The last_name of this UserDetails.  # noqa: E501
         :type last_name: str
         :param email: The email of this UserDetails.  # noqa: E501
         :type email: str
-        :param phone: The phone of this UserDetails.  # noqa: E501
-        :type phone: str
+        :param phone_number: The phone_number of this UserDetails.  # noqa: E501
+        :type phone_number: str
         :param user_id: The user_id of this UserDetails.  # noqa: E501
         :type user_id: str
         """
         self.swagger_types = {
             'user_name': str,
-            'first_name': str,
+            'role': str,
             'last_name': str,
             'email': str,
-            'phone': str,
+            'phone_number': str,
             'user_id': str
         }
 
         self.attribute_map = {
             'user_name': 'user_name',
-            'first_name': 'first_name',
+            'role': 'role',
             'last_name': 'last_name',
             'email': 'email',
-            'phone': 'phone',
+            'phone_number': 'phone_number',
             'user_id': 'user_id'
         }
         self._user_name = user_name
-        self._first_name = first_name
-        self._last_name = last_name
+        self._role = role
         self._email = email
-        self._phone = phone
+        self._phone_number = phone_number
         self._user_id = user_id
 
     @classmethod
@@ -90,48 +89,48 @@ class UserDetails(Model):
         self._user_name = user_name
 
     @property
-    def first_name(self) -> str:
-        """Gets the first_name of this UserDetails.
+    def role(self) -> str:
+        """Gets the role of this UserDetails.
 
 
-        :return: The first_name of this UserDetails.
+        :return: The role of this UserDetails.
         :rtype: str
         """
-        return self._first_name
+        return self._role
 
-    @first_name.setter
-    def first_name(self, first_name: str):
-        """Sets the first_name of this UserDetails.
+    @role.setter
+    def role(self, role: str):
+        """Sets the role of this UserDetails.
 
 
-        :param first_name: The first_name of this UserDetails.
-        :type first_name: str
+        :param role: The role of this UserDetails.
+        :type role: str
         """
-        if first_name is None:
-            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
+        if role is None:
+            raise ValueError("Invalid value for `role`, must not be `None`")  # noqa: E501
 
-        self._first_name = first_name
+        self._role = role
 
-    @property
-    def last_name(self) -> str:
-        """Gets the last_name of this UserDetails.
-
-
-        :return: The last_name of this UserDetails.
-        :rtype: str
-        """
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, last_name: str):
-        """Sets the last_name of this UserDetails.
+    # @property
+    # def last_name(self) -> str:
+    #     """Gets the last_name of this UserDetails.
 
 
-        :param last_name: The last_name of this UserDetails.
-        :type last_name: str
-        """
+    #     :return: The last_name of this UserDetails.
+    #     :rtype: str
+    #     """
+    #     return self._last_name
 
-        self._last_name = last_name
+    # @last_name.setter
+    # def last_name(self, last_name: str):
+    #     """Sets the last_name of this UserDetails.
+
+
+    #     :param last_name: The last_name of this UserDetails.
+    #     :type last_name: str
+    #     """
+
+    #     self._last_name = last_name
 
     @property
     def email(self) -> str:
@@ -157,27 +156,27 @@ class UserDetails(Model):
         self._email = email
 
     @property
-    def phone(self) -> str:
-        """Gets the phone of this UserDetails.
+    def phone_number(self) -> str:
+        """Gets the phone_number of this UserDetails.
 
 
-        :return: The phone of this UserDetails.
+        :return: The phone_number of this UserDetails.
         :rtype: str
         """
-        return self._phone
+        return self._phone_number
 
-    @phone.setter
-    def phone(self, phone: str):
-        """Sets the phone of this UserDetails.
+    @phone_number.setter
+    def phone_number(self, phone_number: str):
+        """Sets the phone_number of this UserDetails.
 
 
-        :param phone: The phone of this UserDetails.
-        :type phone: str
+        :param phone_number: The phone_number of this UserDetails.
+        :type phone_number: str
         """
-        if phone is None:
-            raise ValueError("Invalid value for `phone`, must not be `None`")  # noqa: E501
+        if phone_number is None:
+            raise ValueError("Invalid value for `phone_number`, must not be `None`")  # noqa: E501
 
-        self._phone = phone
+        self._phone_number = phone_number
 
     @property
     def user_id(self) -> str:

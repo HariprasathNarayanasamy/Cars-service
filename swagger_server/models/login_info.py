@@ -14,29 +14,24 @@ class LoginInfo(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, user_id: str=None, user_name: str=None, password: str=None):  # noqa: E501
+    def __init__(self, email: str=None, password: str=None):  # noqa: E501
         """LoginInfo - a model defined in Swagger
 
-        :param user_id: The user_id of this LoginInfo.  # noqa: E501
-        :type user_id: str
-        :param user_name: The user_name of this LoginInfo.  # noqa: E501
-        :type user_name: str
+        :param email: The email of this LoginInfo.  # noqa: E501
+        :type email: str
         :param password: The password of this LoginInfo.  # noqa: E501
         :type password: str
         """
         self.swagger_types = {
-            'user_id': str,
-            'user_name': str,
+            'email': str,
             'password': str
         }
 
         self.attribute_map = {
-            'user_id': 'user_id',
-            'user_name': 'user_name',
+            'email': 'email',
             'password': 'password'
         }
-        self._user_id = user_id
-        self._user_name = user_name
+        self._email = email
         self._password = password
 
     @classmethod
@@ -51,50 +46,50 @@ class LoginInfo(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def user_id(self) -> str:
-        """Gets the user_id of this LoginInfo.
+    def email(self) -> str:
+        """Gets the email of this LoginInfo.
 
 
-        :return: The user_id of this LoginInfo.
+        :return: The email of this LoginInfo.
         :rtype: str
         """
-        return self._user_id
+        return self._email
 
-    @user_id.setter
-    def user_id(self, user_id: str):
-        """Sets the user_id of this LoginInfo.
+    @email.setter
+    def email(self, email: str):
+        """Sets the email of this LoginInfo.
 
 
-        :param user_id: The user_id of this LoginInfo.
-        :type user_id: str
+        :param email: The email of this LoginInfo.
+        :type email: str
         """
-        if user_id is None:
-            raise ValueError("Invalid value for `user_id`, must not be `None`")  # noqa: E501
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
-        self._user_id = user_id
+        self._email = email
 
-    @property
-    def user_name(self) -> str:
-        """Gets the user_name of this LoginInfo.
-
-
-        :return: The user_name of this LoginInfo.
-        :rtype: str
-        """
-        return self._user_name
-
-    @user_name.setter
-    def user_name(self, user_name: str):
-        """Sets the user_name of this LoginInfo.
+    # @property
+    # def user_name(self) -> str:
+    #     """Gets the user_name of this LoginInfo.
 
 
-        :param user_name: The user_name of this LoginInfo.
-        :type user_name: str
-        """
-        if user_name is None:
-            raise ValueError("Invalid value for `user_name`, must not be `None`")  # noqa: E501
+    #     :return: The user_name of this LoginInfo.
+    #     :rtype: str
+    #     """
+    #     return self._user_name
 
-        self._user_name = user_name
+    # @user_name.setter
+    # def user_name(self, user_name: str):
+    #     """Sets the user_name of this LoginInfo.
+
+
+    #     :param user_name: The user_name of this LoginInfo.
+    #     :type user_name: str
+    #     """
+    #     if user_name is None:
+    #         raise ValueError("Invalid value for `user_name`, must not be `None`")  # noqa: E501
+
+    #     self._user_name = user_name
 
     @property
     def password(self) -> str:

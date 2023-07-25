@@ -63,7 +63,7 @@ class UpdateUserInfo(Model):
         :param key: The key of this UpdateUserInfo.
         :type key: str
         """
-        allowed_values = ["first_name", "last_name", "email", "phone", "password"]  # noqa: E501
+        allowed_values = ["user_name", "role", "email", "phone_number", "password"]  # noqa: E501
         if key not in allowed_values:
             raise ValueError(
                 "Invalid value for `key` ({0}), must be one of {1}"

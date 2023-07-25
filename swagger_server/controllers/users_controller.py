@@ -6,6 +6,9 @@ from flask import jsonify , request
 import ast
 import json
 import logging,logging.config
+from flask import Flask
+import bcrypt
+
 
 from swagger_server.models.login_details import LoginDetails  # noqa: E501
 from swagger_server.models.login_info import LoginInfo  # noqa: E501
@@ -29,7 +32,7 @@ carDatabase = cluster.carDatabase
 users = carDatabase.users
 userslogin = carDatabase.userslogin
 
-logging.basicConfig(filename="userfile.log",format="%(filename)s:%(lineno)s:%(levelname)s:%(message)s",level=logging.DEBUG)
+logging.basicConfig(filename="/home/hari/Desktop/mahindra_carsservice/userfile.log",format="%(filename)s:%(lineno)s:%(levelname)s:%(message)s",level=logging.DEBUG)
 
 
 def add_user(body=None):  # noqa: E501
@@ -48,13 +51,22 @@ def add_user(body=None):  # noqa: E501
     #     message = "Bad request"
     #     return 400, message
         try:
-            user_result=users.find_one({"user_name":body['user_name']})
-            if user_result:
-                return "User already exist", 403
+            if len(body['user_name']) == 0 :
+                return "username is empty"
             else:
-                body.update({"user_id" : (uuid.uuid4().hex)})
-                users.insert_one(body)
-                return "User Created", 200
+                user_result=users.find_one({"user_name":body['user_name']})
+                if users.find_one({"email":body['email']}):
+                    return "email ID already exist"
+                if user_result:
+                    return "User name already exist", 403
+                else:
+                    password = body['password'].encode('utf-8')
+                    hash = bcrypt.hashpw(password, bcrypt.gensalt())
+                    logging.debug(hash)
+                    body.update({"user_id" : (uuid.uuid4().hex)})
+                    body.update({"password" : (hash)})
+                    users.insert_one(body)
+                    return "User Created", 200
         except:
             return "Unathorized",401
 
@@ -92,7 +104,7 @@ def get_user_details(user_id):  # noqa: E501
     :rtype: Model200UserDetailsResponse
     """
     try:
-        data = users.find({"user_id":user_id})
+        data = users.find({"user_id":user_id},{"password":False})
         data_list=[]
         for i in data:
             i["_id"]=str(i["_id"])
@@ -119,15 +131,17 @@ def login_user(body=None):  # noqa: E501
     #     message = "Bad request"
     #     return 400, message
         try:
-            if users.find_one({"user_id": body['user_id']}):
-                if userslogin.find_one({"user_id":body['user_id']}):
-                    return "user already logged in",401
-                else:
-                    body.update({"token_id" : (uuid.uuid4().hex)})
-                    data = userslogin.insert_one(body)
+            if users.find_one({"email":body['email']}):
+                password = body['password'].encode('utf-8')
+                hash= bcrypt.hashpw( password , bcrypt.gensalt())
+                if bcrypt.checkpw(password, hash):
+                    token = (uuid.uuid4().hex)
+                    users.update_one({"email":body['email']},{"$set":{"token_id" : token}})
                     return "User logged in", 200
+                else:
+                    return "Invalid password"
             else:
-                return "Invalid user", 400
+                return "Invalid Email ID", 400
         except:
             return "Internal_server_error",500
 
@@ -142,11 +156,11 @@ def logout_user(body=None):  # noqa: E501
     :rtype: None
     """
     try:
-        if userslogin.find_one({"token_id":body['token']}):
-            delete_user = userslogin.delete_one({"token_id":body['token']})
+        if users.find_one({"email":body['email']}):
+            users.update_one({"email":body['email']},{"$unset":{"token_id":"token_id"}})
             return "User logged out",200
         else:
-            return "tokenId not found",404
+            return "Email ID not found",404
     except:
             return "Internal_server_error",500
 
@@ -175,8 +189,6 @@ def update_user_data(user_id, body=None):  # noqa: E501
             return "successful",200
         else:
             return "Not_found",404
-    
-
     except:
         return "Internal_server_error",500
 

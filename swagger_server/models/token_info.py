@@ -14,20 +14,20 @@ class TokenInfo(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, token: str=None):  # noqa: E501
+    def __init__(self, email: str=None):  # noqa: E501
         """TokenInfo - a model defined in Swagger
 
-        :param token: The token of this TokenInfo.  # noqa: E501
-        :type token: str
+        :param email: The email of this TokenInfo.  # noqa: E501
+        :type email: str
         """
         self.swagger_types = {
-            'token': str
+            'email': str
         }
 
         self.attribute_map = {
-            'token': 'token'
+            'email': 'email'
         }
-        self._token = token
+        self._email = email
 
     @classmethod
     def from_dict(cls, dikt) -> 'TokenInfo':
@@ -35,30 +35,30 @@ class TokenInfo(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The token_info of this TokenInfo.  # noqa: E501
+        :return: The email_info of this TokenInfo.  # noqa: E501
         :rtype: TokenInfo
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def token(self) -> str:
-        """Gets the token of this TokenInfo.
+    def email(self) -> str:
+        """Gets the email of this TokenInfo.
 
 
-        :return: The token of this TokenInfo.
+        :return: The email of this TokenInfo.
         :rtype: str
         """
-        return self._token
+        return self._email
 
-    @token.setter
-    def token(self, token: str):
-        """Sets the token of this TokenInfo.
+    @email.setter
+    def email(self, email: str):
+        """Sets the email of this TokenInfo.
 
 
-        :param token: The token of this TokenInfo.
-        :type token: str
+        :param email: The email of this TokenInfo.
+        :type email: str
         """
-        if token is None:
-            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
-        self._token = token
+        self._email = email

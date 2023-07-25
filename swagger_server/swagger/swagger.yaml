@@ -375,21 +375,19 @@ components:
       properties:
         user_name:
           type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
         email:
           type: string
         phone_number:
           type: string
         role:
           type: string
-          enum:
-            - Customer
-            - Marketing
-            - Dealer
-            - Production
+          # enum:
+          #   - Customer
+          #   - Marketing
+          #   - Dealer
+          #   - Production
+        password:
+          type: string
     user_info:
       allOf:
       - $ref: '#/components/schemas/user_info_sans_pwd'
@@ -419,13 +417,10 @@ components:
     login_info:
       required:
       - password
-      - user_id
-      - user_name
+      - email
       type: object
       properties:
-        user_id:
-          type: string
-        user_name:
+        email:
           type: string
         password:
           type: string
@@ -437,10 +432,10 @@ components:
             type: string
     token_info:
       required:
-      - token
+      - email
       type: object
       properties:
-        token:
+        email:
           type: string
     "200UserDetailsResponse":
       type: object
